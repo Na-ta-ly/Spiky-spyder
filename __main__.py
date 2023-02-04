@@ -30,8 +30,12 @@ for i in range(6):
 pose(ser, initial_coords, leg_list)
 time.sleep(3)
 
-walk(ser, legs, initial_coords, 60, speed=10)
-pose(ser, initial_coords, leg_list)
+#walk(ser, legs, initial_coords, 40, speed=10)
+
+#pose(ser, initial_coords, leg_list)
+#turn(ser, 40, leg_list, 3)
+#turn_body(ser, initial_coords, leg_list, 3)
+#pose(ser, initial_coords, leg_list)
 
 #for i in range(3):
 #    turn(ser, 20, leg_list)
