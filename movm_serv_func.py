@@ -53,7 +53,7 @@ def get_coords_up(coords: list, height: float = 2, zero_level=-10) -> list:
     """
     if height <= 0:
         raise InappropriateValue
-    return [coords[0], coords[1], coords[2] + height]#zero_level+height]
+    return [coords[0], coords[1], coords[2] + height]
 
 
 def get_coords_down(coords: list, height: float = 2, zero_level=-10) -> list:
