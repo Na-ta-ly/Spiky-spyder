@@ -58,7 +58,7 @@ def turn(port: Port, legs: list, inital_coords: list, distance: int, speed=5, he
     return 0
 
 
-def pose(port: Port, coord: list, leg_list: list, speed=10):
+def pose(port: Port, coord: list, leg_list: list, speed=5):
     """ Sends coordinates to all legs in list
     :param port: serial port
     :param coord: coordinates that are sent

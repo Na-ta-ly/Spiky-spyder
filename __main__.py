@@ -23,7 +23,7 @@ leg_list_2 = [legs[5], legs[1], legs[3]]
 
 """for i in range(6):
     print(legs[i].coord, legs[i].sernum, legs[i].ang_180, legs[i].ang_0, legs[i].ind)"""
-initial_coords = [8, 0, -10]
+initial_coords = [5, 0, -7]
 for i in range(6):
     legs[i].set_new_coord(initial_coords)
 #print(legs[2].get_cur_coord())
