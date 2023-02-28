@@ -17,7 +17,6 @@ def walk(port: Port, legs: list, initial_coords: list, distance: int, speed=5, s
     :param height: height for leg lifting
     :return: 0
     """
-    # step = int(step / 12 * speed) + 2
     cycle_time = int(800 - (800 - 100) / 10 * speed)  # cycle_time:[800; 100] - direct time of execution for servos
     steps = int(distance / step)
     print(step, cycle_time)
