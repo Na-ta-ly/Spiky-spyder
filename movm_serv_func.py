@@ -1,8 +1,7 @@
 # Functions for counting coordinates and angles
-# +send_coord_list_legs
 import numpy as np
-from port import Port
 from excepts import InappropriateValue, WrongIndex
+from glob_vars import serial, legs, verbose
 
 
 def get_angles(x: float, y: float, z: float):
@@ -12,7 +11,8 @@ def get_angles(x: float, y: float, z: float):
     :param z: height (femur center)
     :return: list, 'raw' angles from the tibia to the coxa
     """
-    dx = 3  # tibia bending
+
+    dx = 0 #3  # tibia bending
     dy = 2.75  # distance from coxa to femur
     dz = 4  # height of femur
     k = 8.5  # femur
@@ -25,6 +25,10 @@ def get_angles(x: float, y: float, z: float):
     p = (k ** 2 + oa ** 2 - m ** 2)/(2 * k * oa)
     #q = x / oa
     s = (m ** 2 + k ** 2 - oa ** 2) / (2 * k * m)
+
+    if verbose():
+        print('get_angles ', x, y, z)
+
     if (p < -1) or (p > 1) or (s < -1) or (s > 1):
         raise InappropriateValue
     if y >= 0:
@@ -40,6 +44,11 @@ def get_angles(x: float, y: float, z: float):
     angle_femur_1 = np.arccos(p)
     angle_femur = int(np.degrees(angle_femur_1 + angle_femur_2))
     angle_tibia = int(np.degrees(np.arccos(s)))
+
+
+    if verbose():
+        print('Result: ', [angle_tibia, angle_femur, angle_coxa])
+
     return [angle_tibia, angle_femur, angle_coxa]
 
 
@@ -51,8 +60,16 @@ def get_coords_up(coords: list, height: float = 2, zero_level=-10) -> list:
     :param height: height
     :return: new coordinates
     """
+    # global verbose_mode
+    # verbose = verbose_mode[0]
+
+    if verbose():
+        print('get_coords_up ', coords)
+        print('Result: ', [coords[0], coords[1], coords[2] + height])
+
     if height <= 0:
         raise InappropriateValue
+
     return [coords[0], coords[1], coords[2] + height]
 
 
@@ -111,25 +128,29 @@ def get_coords_bw(coords: list, leg_indx: int, step: float) -> list:
         return [coords[0] + np.sqrt(np.power(d, 2) - np.power(0.5 * d, 2)), d / 2, coords[2]]
 
 
-def send_coord_list_legs(ser: Port, coords: list, leg_list: list, cycle_time=500):
+def send_coord_list_legs(coords: list, leg_list: list, cycle_time=500):  #Checked
     """
     Sends coordinates from list to legs in list
-    :param cycle_time:
     :param coords: list of coordinates
-    :param ser: port
     :param leg_list: list of legs
+    :param cycle_time
     :return: 0
     """
+    global serial
+    # verbose = verbose_mode[0]
+
     servos_list = []
     ang_list = []
     i = 0
+    if verbose():
+        print('send_coord_list_legs ', coords)
+
     for leg_x in leg_list:
         servos_list.append(leg_x.sernum)
         ang_list.append(leg_x.angl_convert_3(get_angles(coords[i][0], coords[i][1], coords[i][2])))
         leg_x.set_new_coord(coords[i])
-        #print(coords[i])
         i += 1
-    ser.send_list_ang(servos_list, ang_list, cycle_time)
+    serial.send_list_ang(servos_list, ang_list, cycle_time)
     return 0
 
 

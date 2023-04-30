@@ -1,5 +1,6 @@
 import excepts
 
+
 class Leg:
     def __init__(self, servo_tibia, servo_femur, servo_coxa,
                  ang_180_tibia, ang_180_femur, ang_180_coxa,
