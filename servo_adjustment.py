@@ -1,5 +1,5 @@
 # Add automatic config modification
-from leg import Leg
+
 import excepts
 from config_operations import leg_init
 import time
@@ -14,9 +14,9 @@ def calibration():
     leg_init()
 
     print("Basic calibration pose will be sent.")
-    time.sleep(3)
+    time.sleep(0.3)
     for i in range(6):
-        for j in range(0.3):
+        for j in range(3):
             print(legs[i].sernum)
             servo = legs[i].sernum[j]
             angle = legs[i].angl_convert(j, 90)

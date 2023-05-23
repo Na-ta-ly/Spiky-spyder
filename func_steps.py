@@ -2,8 +2,6 @@
 import time
 
 # import __main__
-from port_mock import Port
-# from leg import Leg
 from movm_serv_func import get_coords_up, get_coords_fw, get_coords_down, get_coords_turn, get_coords_bw,\
     send_coord_list_legs
 from glob_vars import legs, verbose
@@ -45,24 +43,24 @@ def walk(initial_coords: list, distance: int, speed=5, step=7, height=2):
     return 0
 
 
-def turn(port: Port, legs: list, inital_coords: list, distance: int, speed=5, height=2, cycle_time=500):
-    # angle: int, leg_list: list, speed=10):
-    timer = int(800 - (800 - 100) / 10 * speed)
-    angle_new = -int(angle / 2)
-    coord = []
-    for leg in leg_list:
-        coord.append(get_coords_turn(leg.coord, angle_new, leg.ind))
-
-    send_coord_list_legs(coord, leg_list, timer)
-
-    height = 2
-    for leg in leg_list:
-        send_coord_list_legs([get_coords_up(leg.coord), height], [leg], timer)
-        input()
-        send_coord_list_legs([get_coords_turn(leg.coord, -2 * angle_new, leg.ind)], [leg], timer)
-        input()
-        send_coord_list_legs([get_coords_down(leg.coord), height], [leg], timer)
-    return 0
+# def turn(port: Port, legs: list, inital_coords: list, distance: int, speed=5, height=2, cycle_time=500):
+#     # angle: int, leg_list: list, speed=10):
+#     timer = int(800 - (800 - 100) / 10 * speed)
+#     angle_new = -int(angle / 2)
+#     coord = []
+#     for leg in leg_list:
+#         coord.append(get_coords_turn(leg.coord, angle_new, leg.ind))
+#
+#     send_coord_list_legs(coord, leg_list, timer)
+#
+#     height = 2
+#     for leg in leg_list:
+#         send_coord_list_legs([get_coords_up(leg.coord), height], [leg], timer)
+#         input()
+#         send_coord_list_legs([get_coords_turn(leg.coord, -2 * angle_new, leg.ind)], [leg], timer)
+#         input()
+#         send_coord_list_legs([get_coords_down(leg.coord), height], [leg], timer)
+#     return 0
 
 
 def pose(coord: list, leg_list: list, speed=5):  # Checked
@@ -151,35 +149,35 @@ def move_body(initial_coords: list, leg_list_fw: list, leg_list_bw: list, step, 
     return 0
 
 
-def turn_body(port: Port, initial_coords: list, leg_list: list, speed: int = 10):
-    """
-    Sends initial coordinates to legs in leg_list without leg lifting
-    :param port: serial port
-    :param initial_coords:  initial coordinates for walking process
-    :param leg_list_fw: list legs that are in forward position (first, second and third pair!!!)
-    :param speed: speed for movements (from 1-slow, to 10-fast)
-    :return: 0
-    """
-    timer = int(800 - (800 - 100) / 10 * speed)
-    print([initial_coords] * len(leg_list))
-    send_coord_list_legs([initial_coords] * len(leg_list), leg_list, timer)
-    return 0
-
-
-def sinle_turnport(port: Port, angle: int, leg_list: list, speed=10):
-    timer = int(800 - (800 - 100) / 10 * speed)
-    angle_new = -int(angle / 2)
-    coord = []
-    for leg in leg_list:
-        coord.append(get_coords_turn(leg.coord, angle_new, leg.ind))
-
-    send_coord_list_legs(coord, leg_list, timer)
-
-    height = 2
-    for leg in leg_list:
-        send_coord_list_legs([get_coords_up(leg.coord), height], [leg], timer)
-        input()
-        send_coord_list_legs([get_coords_turn(leg.coord, -2 * angle_new, leg.ind)], [leg], timer)
-        input()
-        send_coord_list_legs([get_coords_down(leg.coord), height], [leg], timer)
-    return 0
+# def turn_body(port: Port, initial_coords: list, leg_list: list, speed: int = 10):
+#     """
+#     Sends initial coordinates to legs in leg_list without leg lifting
+#     :param port: serial port
+#     :param initial_coords:  initial coordinates for walking process
+#     :param leg_list_fw: list legs that are in forward position (first, second and third pair!!!)
+#     :param speed: speed for movements (from 1-slow, to 10-fast)
+#     :return: 0
+#     """
+#     timer = int(800 - (800 - 100) / 10 * speed)
+#     print([initial_coords] * len(leg_list))
+#     send_coord_list_legs([initial_coords] * len(leg_list), leg_list, timer)
+#     return 0
+#
+#
+# def sinle_turnport(port: Port, angle: int, leg_list: list, speed=10):
+#     timer = int(800 - (800 - 100) / 10 * speed)
+#     angle_new = -int(angle / 2)
+#     coord = []
+#     for leg in leg_list:
+#         coord.append(get_coords_turn(leg.coord, angle_new, leg.ind))
+#
+#     send_coord_list_legs(coord, leg_list, timer)
+#
+#     height = 2
+#     for leg in leg_list:
+#         send_coord_list_legs([get_coords_up(leg.coord), height], [leg], timer)
+#         input()
+#         send_coord_list_legs([get_coords_turn(leg.coord, -2 * angle_new, leg.ind)], [leg], timer)
+#         input()
+#         send_coord_list_legs([get_coords_down(leg.coord), height], [leg], timer)
+#     return 0

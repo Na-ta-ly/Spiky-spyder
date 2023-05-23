@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import time
-from func_steps import pose, walk, turn, turn_body
+from func_steps import pose, walk
 # from movm_serv_func import send_coord_list_legs
 from config_operations import leg_init, get_init_coord
 from glob_vars import *
