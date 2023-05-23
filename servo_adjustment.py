@@ -16,7 +16,7 @@ def calibration():
     print("Basic calibration pose will be sent.")
     time.sleep(3)
     for i in range(6):
-        for j in range(3):
+        for j in range(0.3):
             print(legs[i].sernum)
             servo = legs[i].sernum[j]
             angle = legs[i].angl_convert(j, 90)
@@ -69,23 +69,18 @@ def angle_adj(leg_index, segment):
     angle = 500
     servo = legs[leg_index].sernum[segment]
     while True:
-        print('Enter new PWM value. For exit without saving press "q". For finishing and saving result - type "save".')
+        print('Enter new PWM value. For exit without saving press "q".')
         in_value = input('New PWM value: ')
 
         if in_value == 'q':
             return 1
-
-        if in_value == 'save':
-            # write position in config
-            modify_conf(leg_index, segment, angle)
-            break
 
         try:
             angle = int(in_value)
         except ValueError:
             print('Wrong value!')
             continue
-        serial.send_1_ang(servo, angle - 100)
+        serial.send_1_ang(servo, angle - 200)
         serial.send_1_ang(servo, angle)
         if input('Do you need to check this position? Y/n') == 'Y':
             if position_check(servo, angle):
@@ -97,7 +92,8 @@ def angle_adj(leg_index, segment):
 def position_check(servo, angle, check_num=3):
     """Repeats position several times and returns True if it's OK"""
     for p in range(check_num):
-        serial.send_1_ang(servo, angle + (-1) ** p * 100)
+        serial.send_1_ang(servo, angle + (-1) ** p * 200)
+        time.sleep(1)
         serial.send_1_ang(servo, angle)
         input('Check position and press any key...')
     if input('Position is OK? (Y/n) ') == 'Y':
@@ -127,10 +123,15 @@ def modify_conf(leg_index, segment, angle):
     point_180_old = int(config[section][prefix + '_servo_180deg_point'])
     point_90_old = (point_180_old - point_0_old) / 2 + point_0_old
     delta = point_90_old - angle
-    config[section][prefix + '_servo_0deg_point'] = str(point_0_old - delta)
-    config[section][prefix + '_servo_180deg_point'] = str(point_180_old - delta)
+    point_0_new = str(int(point_0_old - delta))
+    point_180_new = str(int(point_180_old - delta))
 
-    with open('config.ini', 'w') as configfile:
+    config[section][prefix + '_servo_0deg_point'] = point_0_new
+    config[section][prefix + '_servo_180deg_point'] = point_180_new
+
+    print(point_0_new, point_180_new)
+
+    with open('copy.ini', 'w') as configfile:
         config.write(configfile)
 
     return 0

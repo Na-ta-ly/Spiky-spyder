@@ -1,4 +1,4 @@
-from port import Port
+from port_mock import Port
 
 serial = Port()
 legs = []
